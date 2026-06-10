@@ -15,8 +15,7 @@ Scoop is a command-line installer (package manager) for Windows. Instead of down
 
 ## Step 1: Install Scoop (If you do not have it)
 
-1. Open Windows PowerShell (Press the Windows Key, type "powershell", and hit Enter).
-2. PowerShell needs permission to execute the installer script. Run this command first:
+1. Execute this in Powershell to install Scoop
    ```powershell
    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
    Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
