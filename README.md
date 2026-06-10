@@ -15,7 +15,22 @@ Scoop is a command-line installer (package manager) for Windows. Instead of down
 
 ## Step 1: Install Scoop (If you do not have it)
 
-1. Execute this in Powershell to install Scoop
+Execute this in Powershell to install Scoop
    ```powershell
    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
    Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+   ```
+
+   
+## Step 2: Install Pokemon Blaze Online
+
+
+# 1. Add the PBO bucket to your Scoop setup (only needed once)
+   ```powershell
+   scoop bucket add scoop-pbo [https://github.com/LukasSku/scoop-pbo.git](https://github.com/LukasSku/scoop-pbo.git)
+   ```
+
+# 2. Install the game
+   ```powershell
+   scoop install pbo
+   ```
