@@ -7,7 +7,7 @@ on:
 
 jobs:
   update-hash:
-    runs-on: ubuntu-latest # Nutzt jetzt das viel schnellere Linux
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -15,7 +15,6 @@ jobs:
       - name: Fetch current remote hash
         id: get_hash
         run: |
-          # Lädt die Datei ultraschnell per curl und berechnet direkt den SHA256-Hash
           URL="https://pbo-downloads.s3.eu-central-003.backblazeb2.com/pbo-windows.zip"
           HASH=$(curl -sL "$URL" | sha256sum | awk '{print $1}')
           echo "NEW_HASH=$HASH" >> $GITHUB_ENV
@@ -23,7 +22,6 @@ jobs:
       - name: Update JSON Manifest
         run: |
           JSON_PATH="bucket/pbo.json"
-          # Liest den aktuellen Hash aus der JSON aus
           OLD_HASH=$(jq -r '.hash' $JSON_PATH)
           
           if [ "$OLD_HASH" != "$NEW_HASH" ]; then
