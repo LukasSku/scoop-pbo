@@ -1,22 +1,23 @@
 {
-  "version": "1.0.0",
-  "description": "Pokemon Blaze Online Launcher & Game Client",
-  "homepage": "https://pokemonblazeonline.com",
-  "license": "Proprietary",
-  "url": "https://pbo-downloads.s3.eu-central-003.backblazeb2.com/pbo-windows.zip",
-  "hash": "8886658ebe3740ac82e1526c4227104e2865869c49cce0a2a96b67032db0b7f6",
-  "bin": [
-    "pbo.exe",
-    "pbo_no_updater.exe"
-  ],
-  "shortcuts": [
-    [
-      "pbo.exe",
-      "Pokemon Blaze Online"
+    "version": "1.0.0",
+    "description": "Pokemon Blaze Online Launcher & Game Client",
+    "homepage": "https://pokemonblazeonline.com",
+    "license": "Proprietary",
+    "url": "https://pbo-downloads.s3.eu-central-003.backblazeb2.com/pbo-windows.zip",
+    "hash": "dein_aktueller_hash_bleibt_hier_stehen",
+    "extract_dir": "pbo-windows",
+    "bin": [
+        "pbo.exe",
+        "pbo_no_updater.exe"
+    ],
+    "shortcuts": [
+        [
+            "pbo.exe",
+            "Pokemon Blaze Online"
+        ]
+    ],
+    "persist": [
+        "config.json",
+        "logs"
     ]
-  ],
-  "persist": [
-    "config.json",
-    "logs"
-  ]
 }
