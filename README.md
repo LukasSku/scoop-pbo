@@ -34,3 +34,15 @@ Execute this in Powershell to install Scoop
    ```powershell
    scoop install pbo
    ```
+
+
+## Step 3: Update with Scoop
+   ```powershell
+   scoop update pbo
+   ```
+
+## Step 4: Uninstall with Scoop
+   ```powershell
+   scoop uninstall pbo
+   ```
+   
