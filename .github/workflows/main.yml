@@ -1,0 +1,47 @@
+name: Auto Update PBO Hash
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-hash:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Fetch current remote hash
+        id: get_hash
+        shell: powershell
+        run: |
+          $url = "https://pbo-downloads.s3.eu-central-003.backblazeb2.com/pbo-windows.zip"
+          $tempFile = "$env:TEMP\pbo-windows.zip"
+          Invoke-WebRequest -Uri $url -OutFile $tempFile
+          $hash = (Get-FileHash $tempFile -Algorithm SHA256).Hash.ToLower()
+          Remove-Item $tempFile
+          echo "NEW_HASH=$hash" >> $env:GITHUB_ENV
+
+      - name: Update JSON Manifest
+        shell: powershell
+        run: |
+          $jsonPath = "bucket/pbo.json"
+          $json = Get-Content $jsonPath | ConvertFrom-Json
+          
+          if ($json.hash -ne $env:NEW_HASH) {
+            $json.hash = $env:NEW_HASH
+            $json | ConvertTo-Json -Depth 20 | Out-File $jsonPath -Encoding utf8
+            echo "CHANGED=true" >> $env:GITHUB_ENV
+          } else {
+            echo "CHANGED=false" >> $env:GITHUB_ENV
+          }
+
+      - name: Commit and Push changes
+        if: env:CHANGED == 'true'
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "actions@github.com"
+          git add bucket/pbo.json
+          git commit -m "Chore: Automatisch aktualisierter SHA-256 Hash"
+          git push
