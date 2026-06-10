@@ -19,3 +19,4 @@ Scoop is a command-line installer (package manager) for Windows. Instead of down
 2. PowerShell needs permission to execute the installer script. Run this command first:
    ```powershell
    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+   Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
