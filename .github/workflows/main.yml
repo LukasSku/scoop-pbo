@@ -7,35 +7,32 @@ on:
 
 jobs:
   update-hash:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest # Nutzt jetzt das viel schnellere Linux
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Fetch current remote hash
         id: get_hash
-        shell: powershell
         run: |
-          $url = "https://pbo-downloads.s3.eu-central-003.backblazeb2.com/pbo-windows.zip"
-          $tempFile = "$env:TEMP\pbo-windows.zip"
-          Invoke-WebRequest -Uri $url -OutFile $tempFile
-          $hash = (Get-FileHash $tempFile -Algorithm SHA256).Hash.ToLower()
-          Remove-Item $tempFile
-          echo "NEW_HASH=$hash" >> $env:GITHUB_ENV
+          # Lädt die Datei ultraschnell per curl und berechnet direkt den SHA256-Hash
+          URL="https://pbo-downloads.s3.eu-central-003.backblazeb2.com/pbo-windows.zip"
+          HASH=$(curl -sL "$URL" | sha256sum | awk '{print $1}')
+          echo "NEW_HASH=$HASH" >> $GITHUB_ENV
 
       - name: Update JSON Manifest
-        shell: powershell
         run: |
-          $jsonPath = "bucket/pbo.json"
-          $json = Get-Content $jsonPath | ConvertFrom-Json
+          JSON_PATH="bucket/pbo.json"
+          # Liest den aktuellen Hash aus der JSON aus
+          OLD_HASH=$(jq -r '.hash' $JSON_PATH)
           
-          if ($json.hash -ne $env:NEW_HASH) {
-            $json.hash = $env:NEW_HASH
-            $json | ConvertTo-Json -Depth 20 | Out-File $jsonPath -Encoding utf8
-            echo "CHANGED=true" >> $env:GITHUB_ENV
-          } else {
-            echo "CHANGED=false" >> $env:GITHUB_ENV
-          }
+          if [ "$OLD_HASH" != "$NEW_HASH" ]; then
+            # Ersetzt den alten Hash in der Datei mithilfe von jq
+            jq --arg env_hash "$NEW_HASH" '.hash = $env_hash' $JSON_PATH > tmp.json && mv tmp.json $JSON_PATH
+            echo "CHANGED=true" >> $GITHUB_ENV
+          else
+            echo "CHANGED=false" >> $GITHUB_ENV
+          fi
 
       - name: Commit and Push changes
         if: ${{ env.CHANGED == 'true' }}
