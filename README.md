@@ -27,7 +27,7 @@ Execute this in Powershell to install Scoop
 
 # 1. Add the PBO bucket to your Scoop setup (only needed once)
    ```powershell
-   scoop bucket add scoop-pbo [https://github.com/LukasSku/scoop-pbo.git](https://github.com/LukasSku/scoop-pbo.git)
+   scoop bucket add scoop-pbo https://github.com/LukasSku/scoop-pbo.git
    ```
 
 # 2. Install the game
