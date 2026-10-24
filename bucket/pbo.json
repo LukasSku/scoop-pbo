@@ -4,7 +4,7 @@
   "homepage": "https://pokemonblazeonline.com",
   "license": "Proprietary",
   "url": "https://pbo-downloads.s3.eu-central-003.backblazeb2.com/pbo-windows.zip",
-  "hash": "c0349db6ee656da402222bccf4b48ce129fe981ec6a11e3db4f1e716f8c166f2",
+  "hash": "d739caf857519e970922bfe1ae7dc9d477ddb3febd78c65802094486342fe772",
   "extract_dir": "pbo-windows",
   "bin": [
     "pbo.exe",
